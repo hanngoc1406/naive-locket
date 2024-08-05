@@ -34,8 +34,7 @@ class LocketServices {
    
    static func uploadImage(image: UIImage, userId: String, completion: @escaping(String, Bool) -> Void) {
       guard let imageData = image.jpegData(compressionQuality: 0.7) else {return}
-      let uid = NSUUID().uuidString.lowercased()
-      let fileName = "\(uid.replacingOccurrences(of: "-", with: "", options: .literal, range: nil)).webp"
+      let fileName = VideoHelper.generateName(type: .images)
       let ref = Storage.storage().reference(withPath: "/users/\(userId)/moments/thumbnails/\(fileName)")
       
       ref.putData(imageData, metadata: nil) { metadata, error in
@@ -53,8 +52,7 @@ class LocketServices {
    }
    
    static func uploadVideo(video: URL, thumbnail: UIImage, userId: String, completion: @escaping(String, String, Bool) -> Void) {
-      let uid = NSUUID().uuidString.lowercased()
-      let fileName = "\(uid.replacingOccurrences(of: "-", with: "", options: .literal, range: nil)).mp4"
+      let fileName = VideoHelper.generateName(type: .video)
       let storage = Storage.storage(url: "gs://locket-video")
       let ref = storage.reference(withPath: "/users/\(userId)/moments/videos/\(fileName)")
       let metaData = StorageMetadata()

@@ -8,6 +8,11 @@
 import Foundation
 import AVKit
 
+enum extType: String {
+   case images = "webp"
+   case video = "mp4"
+}
+
 class VideoHelper {
    static func generateThumbnail(path: URL) -> UIImage? {
       do {
@@ -34,5 +39,10 @@ class VideoHelper {
       """
       
       return json.data(using: .utf8)!
+   }
+   
+   static func generateName(type: extType) -> String {
+      let letters = "abcdefghijklmnopqrstuvwxyz"
+      return "\(String((0..<20).map{ _ in letters.randomElement()! })).\(type.rawValue)"
    }
 }
